@@ -1,23 +1,32 @@
-import logo from './logo.svg';
+
+import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
+import { setTheme, toggleTheme } from './slices/ThemeSlice';
+import { useEffect } from 'react';
+import { Products } from './thunks/productsThunk';
 
 function App() {
+  const theme = useSelector((state) => state.theme);
+  const dispatch = useDispatch();
+  const { products, loading, error } = useSelector((state)=>state.products)
+  
+  useEffect(() => { 
+    dispatch(Products());
+  }, []);
+
+  if (loading === 'pending')
+    return 'Loading...';
+  
+  if (loading === 'rejected')
+    return error;
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button onClick={() => dispatch(toggleTheme())}>click me</button>
+      <button onClick={() => dispatch(setTheme('dark'))}>click me 2</button>
+      {theme.value}
+
+      {products.map(product => <div key={product.id}>{product.title}</div> )}
     </div>
   );
 }
