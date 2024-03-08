@@ -4,7 +4,24 @@ import './App.css';
 import { setTheme, toggleTheme } from './slices/ThemeSlice';
 import { useEffect } from 'react';
 import { Products } from './thunks/productsThunk';
+import { NavLink, Outlet } from 'react-router-dom';
 
+
+const App = () => {
+  return (
+    <div>
+      <nav>
+        <NavLink to="/">Home</NavLink>
+        <NavLink to="/login">Login</NavLink>
+        <NavLink to="/register">Register</NavLink>
+      </nav>
+
+      <Outlet />
+    </div>
+  )
+}
+
+/*
 function App() {
   const theme = useSelector((state) => state.theme);
   const dispatch = useDispatch();
@@ -29,6 +46,6 @@ function App() {
       {products.map(product => <div key={product.id}>{product.title}</div> )}
     </div>
   );
-}
+}*/
 
 export default App;
